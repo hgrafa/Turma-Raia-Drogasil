@@ -2,7 +2,7 @@ package model;
 
 import model.enums.Cor;
 
-public class Retangulo extends FiguraPlana{
+public class Retangulo extends FiguraPlanaAbstrata {
     private double base;
     private double altura;
     public Retangulo(Cor cor, double lado) {
@@ -32,6 +32,15 @@ public class Retangulo extends FiguraPlana{
 
     public void setAltura(double altura) {
         this.altura = altura;
+    }
+
+    public double area() {
+        return base * altura;
+    }
+
+    @Override
+    public double perimetro() {
+        return 2 * (base + altura);
     }
 
     // override: sobreescreve

@@ -5,6 +5,7 @@ public class Cliente {
     private String nome;
     private String apelido;
     private String cpf;
+    private Conta conta;
     private Endereco endereco;
 
     public Cliente(String nome, String cpf) {
@@ -42,6 +43,10 @@ public class Cliente {
         this.endereco = endereco;
     }
 
+    public boolean hasConta() {
+        return conta != null;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
@@ -51,4 +56,5 @@ public class Cliente {
                 ", endereco=" + endereco +
                 '}';
     }
+
 }

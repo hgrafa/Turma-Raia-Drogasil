@@ -8,8 +8,8 @@ public class ContaPoupanca extends Conta {
     private String codigoDeOperacao;
     private double saldoGuardado;
 
-    public ContaPoupanca(String codigo, Cliente titular, String senha, String codigoDeOperacao) {
-        super(codigo, titular, senha);
+    public ContaPoupanca(String codigo, String senha, String codigoDeOperacao) {
+        super(codigo, senha);
         this.codigoDeOperacao = codigoDeOperacao;
     }
 

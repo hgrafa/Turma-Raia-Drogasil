@@ -1,36 +1,4 @@
-# Spring boot
-
-## Servidores
-
-- O servidor entrega recursos
-- Recursos: uma base de dados, uma REST API
-
-## API
-
-- dados que podem ser acessados
-- acessa os dados
-- reduz trabalho: serviço
-- trabalho multiplo (threads)
-
-## Copy Constructor
-
-```java
-public class Robot {
-
-  private String name;
-  private int age;
-
-  public Robot(String name, int age) {
-      this.name = name;
-      this.age = age;
-  }
-
-  public Robot(Robot other) {
-      this.name = other.name;
-      this.age = other.age;
-  }
-}
-```
+# Persistência e camadas
 
 ## JDBC (Java DataBase Connector)
 
@@ -123,3 +91,59 @@ public static void main(String[] args) {
   em.persist(s1);
 }
 ```
+
+## Spring Data JPA e Hibernate
+
+Hibernate: Pega entidades Java e monta queries SQL
+
+JPA: Usa o hibernate para abstrair comandos em formato de banco de dados para métodos java
+
+JPA: _Java Persistence API_
+
+hibernate > JPA > Spring Data JPA
+
+> é necessário importar a jpa + o conector do banco que será utilizado
+
+```java
+@Entity
+@Table(value = "superheroes")
+@Getter @Setter
+public class SuperHero {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable=false)
+  private String name;
+
+  private String realName;
+
+  @Column(nullable=false)
+  private String power;
+}
+```
+
+```java
+@Repository
+public interface SuperHeroRepository
+  extends JpaRepository<SuperHero, Long> {
+}
+```
+
+## Funcionamento Genérica da JPA
+
+CRUD + algumas coisas:
+
+- TEntity
+- TKey
+
+CREATE (criar um): `(TEntity) -> (TEntity)`
+READ (pegar todos): `() -> List<TEntity>`
+READ (pegar pela chave primaria): `(TKey) -> TEntity`
+UPDATE (atualização por id): `(TKey, TEntity) -> TEntity`
+UPDATE (atualização): `(TEntity) -> TEntity`
+DELETE (deleção) : `(TKey) -> (boolean)`
+
+- Ler sobre "Composition over inheritance"
+- O java não permite herança múltipla: problema do diamante

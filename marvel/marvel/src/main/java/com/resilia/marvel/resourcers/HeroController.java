@@ -1,7 +1,8 @@
 package com.resilia.marvel.resourcers;
 
-import com.resilia.marvel.domain.Hero;
-import com.resilia.marvel.repository.HeroRepository;
+import com.resilia.marvel.domain.dto.request.CreateHeroDto;
+import com.resilia.marvel.domain.model.Hero;
+import com.resilia.marvel.service.HeroService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,18 +17,18 @@ import java.util.List;
 public class HeroController {
 
     @NonNull
-    private HeroRepository heroRepository;
-
-    private static final double PI = 3.14159265;
-
-    // substituido pela lombok
-    // public HeroController(HeroRepository heroRepository) {
-    //      this.heroRepository = heroRepository;
-    // }
+    private HeroService heroService;
 
     @PostMapping
-    public ResponseEntity<Hero> registerNewHero(@RequestBody Hero hero) {
-        var savedHero = heroRepository.save(hero);
+    public ResponseEntity<Hero> registerNewHero(@RequestBody CreateHeroDto heroDto) {
+        var savedHero = heroService.registerHero(heroDto);
+
+        if(savedHero == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_ACCEPTABLE)
+                    .build();
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedHero);
@@ -35,7 +36,7 @@ public class HeroController {
 
     @GetMapping
     public ResponseEntity<List<Hero>> getAllHeroes() {
-        var heroes = heroRepository.findAll();
+        var heroes = heroService.getAll();
 
         if(heroes.isEmpty())
             return ResponseEntity
